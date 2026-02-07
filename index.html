@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parvassive Playz | Not a Gamer, But a Game Changer</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
+    
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            dark: '#050505',
+                            darker: '#020205',
+                            cyan: '#00f3ff',
+                            purple: '#bc13fe',
+                            magenta: '#ff00ff'
+                        }
+                    },
+                    fontFamily: {
+                        header: ['Orbitron', 'sans-serif'],
+                        body: ['Rajdhani', 'sans-serif'],
+                    },
+                    backgroundImage: {
+                        'cracked': "url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxMDAlJyBoZWlnaHQ9JzEwMCUnPjxmaWx0ZXIgaWQ9J24nPjxmZVR1cmJ1bGVuY2UgdHlwZT0nZnJhY3RhbE5vaXNlJyBiYXNlRnJlcXVlbmN5PScwLjUnIG51bU9jdGF2ZXM9JzEnIHN0aXRjaFRpbGVzPSdzdGl0Y2gnLz48L2ZpbHRlcj48cmVjdCB3aWR0aD0nMTAwJScgaGVpZ2h0PScxMDAlJyBmaWxsPSd0cmFuc3BhcmVudCcvPjxyZWN0IHdpZHRoPScxMDAlJyBoZWlnaHQ9JzEwMCUnIGZpbHRlcj0idXJsKCNuKSIgb3BhY2l0eT0iMC4wNSIvPjwvc3ZnPg==')",
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Global Reset */
+        body {
+            background-color: #050505;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        /* Chrome Text Effect */
+        .chrome-text {
+            background: linear-gradient(to bottom, #ffffff 0%, #a0a0a0 50%, #ffffff 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0px 0px 15px rgba(188, 19, 254, 0.6), 0px 0px 30px rgba(0, 243, 255, 0.4);
+        }
+
+        /* Glitch Effect on Hover */
+        .glitch-hover:hover {
+            animation: glitch 0.3s cubic-bezier(.25, .46, .45, .94) both infinite;
+            color: #00f3ff;
+        }
+
+        @keyframes glitch {
+            0% { transform: translate(0) }
+            20% { transform: translate(-2px, 2px) }
+            40% { transform: translate(-2px, -2px) }
+            60% { transform: translate(2px, 2px) }
+            80% { transform: translate(2px, -2px) }
+            100% { transform: translate(0) }
+        }
+
+        /* Button Chamfered Edges */
+        .clip-chamfer {
+            clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%);
+        }
+
+        /* Neon Glow Animation */
+        .neon-pulse {
+            animation: neonPulse 2s infinite alternate;
+        }
+
+        @keyframes neonPulse {
+            from { box-shadow: 0 0 10px #bc13fe, 0 0 20px #bc13fe; }
+            to { box-shadow: 0 0 20px #00f3ff, 0 0 40px #00f3ff; }
+        }
+        
+        /* Scanline effect */
+        .scanlines {
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+        
+        // --- DATA CONFIGURATION (EDIT THIS TO CHANGE CONTENT) ---
+        const CONTENT_DATA = [
+            { id: 1, title: "RANKED DOMINATION", views: "12K Views", category: "Gameplay" },
+            { id: 2, title: "THE ULTIMATE LOADOUT", views: "8.5K Views", category: "Guide" },
+            { id: 3, title: "FAIL COMPILATION #4", views: "22K Views", category: "Funny" },
+            { id: 4, title: "LIVESTREAM HIGHLIGHTS", views: "5K Views", category: "Clips" },
+        ];
+
+        // --- COMPONENTS ---
+
+        const Navbar = () => {
+            const [isOpen, setIsOpen] = useState(false);
+
+            return (
+                <nav className="w-full bg-brand-dark/90 backdrop-blur-md border-b border-brand-purple/30 sticky top-0 z-50">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="flex items-center justify-between h-20">
+                            
+                            {/* BRANDING */}
+                            <div className="flex-shrink-0 flex items-center gap-3 group cursor-pointer">
+                                <div className="relative">
+                                    <img 
+                                        src="./logo.jpg" 
+                                        alt="Parvassive Logo" 
+                                        className="h-12 w-12 rounded-full border-2 border-brand-cyan shadow-[0_0_15px_rgba(0,243,255,0.6)] group-hover:shadow-[0_0_25px_rgba(188,19,254,0.8)] transition-all duration-300"
+                                    />
+                                </div>
+                                <span className="chrome-text font-header font-black text-2xl tracking-wider uppercase italic">
+                                    Parvassive Playz
+                                </span>
+                            </div>
+
+                            {/* DESKTOP NAV */}
+                            <div className="hidden md:block">
+                                <div className="ml-10 flex items-baseline space-x-8 font-header tracking-widest text-sm">
+                                    {['HOME', 'VIDEOS', 'COMMUNITY', 'MERCH'].map((item) => (
+                                        <a 
+                                            key={item}
+                                            href="#" 
+                                            className="text-gray-300 hover:text-brand-cyan px-3 py-2 rounded-md font-bold transition-colors duration-200 glitch-hover"
+                                        >
+                                            {item}
+                                        </a>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* MOBILE MENU BUTTON */}
+                            <div className="-mr-2 flex md:hidden">
+                                <button 
+                                    onClick={() => setIsOpen(!isOpen)}
+                                    className="bg-brand-darker inline-flex items-center justify-center p-2 rounded-md text-brand-cyan hover:text-white hover:bg-brand-purple/20 focus:outline-none"
+                                >
+                                    <i data-lucide={isOpen ? "x" : "menu"}></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* MOBILE NAV */}
+                    {isOpen && (
+                        <div className="md:hidden bg-brand-darker border-b border-brand-purple/30">
+                            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 font-header">
+                                {['HOME', 'VIDEOS', 'COMMUNITY', 'MERCH'].map((item) => (
+                                    <a key={item} href="#" className="text-gray-300 hover:text-brand-cyan block px-3 py-2 rounded-md text-base font-medium">
+                                        {item}
+                                    </a>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+                </nav>
+            );
+        };
+
+        const Hero = ({ gamerTag, setGamerTag }) => {
+            return (
+                <div className="relative overflow-hidden bg-brand-dark">
+                    {/* Background Elements */}
+                    <div className="absolute inset-0 bg-cracked opacity-30"></div>
+                    <div className="absolute top-0 left-1/4 w-96 h-96 bg-brand-purple/20 rounded-full blur-[100px] pointer-events-none"></div>
+                    <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-brand-cyan/20 rounded-full blur-[100px] pointer-events-none"></div>
+
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32 relative z-10 flex flex-col items-center text-center">
+                        
+                        {/* Tagline Box */}
+                        <div className="inline-block mb-6 px-4 py-1 border border-brand-cyan/50 bg-brand-cyan/10 rounded backdrop-blur-sm">
+                            <span className="text-brand-cyan font-body font-bold tracking-[0.2em] uppercase text-sm md:text-base">
+                                Not a Gamer, But a Game Changer
+                            </span>
+                        </div>
+
+                        {/* Main Headline */}
+                        <h1 className="text-5xl md:text-7xl font-header font-black text-white mb-6 leading-tight">
+                            WELCOME TO THE <br />
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-purple to-brand-cyan drop-shadow-[0_0_10px_rgba(188,19,254,0.5)]">
+                                PARVASSIVE SQUAD
+                            </span>
+                        </h1>
+
+                        <p className="mt-2 max-w-2xl text-xl text-gray-400 font-body mb-10">
+                            High-octane gameplay, epic fails, and community vibes. <br/>
+                            Drop in, gear up, and let's dominate the lobby.
+                        </p>
+
+                        {/* Gamer Tag Interactive Input */}
+                        <div className="mb-12 w-full max-w-md">
+                            {!gamerTag ? (
+                                <div className="flex flex-col sm:flex-row gap-2">
+                                    <input 
+                                        type="text" 
+                                        placeholder="ENTER GAMER TAG" 
+                                        id="tagInput"
+                                        className="flex-1 bg-brand-darker border border-gray-700 text-white font-header px-4 py-3 focus:outline-none focus:border-brand-cyan focus:shadow-[0_0_15px_rgba(0,243,255,0.3)] transition-all clip-chamfer"
+                                    />
+                                    <button 
+                                        onClick={() => {
+                                            const val = document.getElementById('tagInput').value;
+                                            if(val) setGamerTag(val);
+                                        }}
+                                        className="bg-brand-purple hover:bg-brand-magenta text-white font-header font-bold px-8 py-3 clip-chamfer transition-all hover:scale-105 shadow-[0_0_15px_rgba(188,19,254,0.5)]"
+                                    >
+                                        JOIN
+                                    </button>
+                                </div>
+                            ) : (
+                                <div className="p-4 border border-brand-cyan/50 bg-brand-darker/80 clip-chamfer animate-pulse">
+                                    <p className="text-brand-cyan font-header text-xl">
+                                        WELCOME, AGENT {gamerTag}. SYSTEM ONLINE.
+                                    </p>
+                                </div>
+                            )}
+                        </div>
+
+                        {/* CTA Buttons */}
+                        <div className="flex flex-wrap justify-center gap-6">
+                            <button className="relative px-8 py-4 bg-gradient-to-r from-brand-cyan to-blue-600 text-black font-header font-black text-lg clip-chamfer hover:brightness-110 transition-all shadow-[0_0_20px_rgba(0,243,255,0.4)]">
+                                SUBSCRIBE NOW
+                            </button>
+                            <button className="px-8 py-4 border border-brand-purple text-brand-purple hover:text-white hover:bg-brand-purple font-header font-bold text-lg clip-chamfer transition-all">
+                                WATCH LATEST
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        const VideoGrid = () => {
+            return (
+                <div className="bg-brand-darker py-20 relative border-t border-brand-cyan/20">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="flex items-center justify-between mb-12">
+                            <h2 className="text-3xl md:text-4xl font-header font-bold text-white flex items-center gap-3">
+                                <i data-lucide="zap" className="text-brand-cyan"></i>
+                                LATEST DROPS
+                            </h2>
+                            <span className="hidden md:inline-block font-body text-brand-purple font-bold tracking-widest">
+                                /// READY_TO_WATCH
+                            </span>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                            {CONTENT_DATA.map((video) => (
+                                <div key={video.id} className="group relative bg-brand-dark border border-gray-800 hover:border-brand-cyan transition-colors duration-300">
+                                    {/* Thumbnail Placeholder */}
+                                    <div className="aspect-video w-full bg-gray-900 relative overflow-hidden">
+                                        <div className="absolute inset-0 bg-gradient-to-t from-brand-dark to-transparent opacity-60"></div>
+                                        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                            <div className="bg-brand-cyan/20 p-4 rounded-full border border-brand-cyan backdrop-blur-sm">
+                                                <i data-lucide="play" className="fill-brand-cyan text-brand-cyan w-8 h-8"></i>
+                                            </div>
+                                        </div>
+                                        {/* Category Tag */}
+                                        <span className="absolute top-2 left-2 bg-brand-purple text-white text-xs font-header px-2 py-1">
+                                            {video.category}
+                                        </span>
+                                    </div>
+                                    
+                                    {/* Video Info */}
+                                    <div className="p-4">
+                                        <h3 className="text-white font-header font-bold text-lg truncate group-hover:text-brand-cyan transition-colors">
+                                            {video.title}
+                                        </h3>
+                                        <div className="flex justify-between items-center mt-2 text-gray-500 font-body text-sm">
+                                            <span>{video.views}</span>
+                                            <span className="group-hover:text-brand-purple transition-colors">Watch ></span>
+                                        </div>
+                                    </div>
+                                    
+                                    {/* Hover Glow Effect */}
+                                    <div className="absolute -inset-[1px] bg-gradient-to-r from-brand-purple to-brand-cyan opacity-0 group-hover:opacity-100 blur transition duration-500 -z-10"></div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        const Footer = () => {
+            return (
+                <footer className="bg-black border-t border-brand-purple/20 py-12">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
+                        <div className="flex items-center gap-2">
+                             <img src="./logo.jpg" alt="Logo" className="h-8 w-8 rounded-full border border-gray-600 grayscale hover:grayscale-0 transition-all"/>
+                             <span className="text-gray-400 font-header text-sm">© 2024 PARVASSIVE PLAYZ</span>
+                        </div>
+                        
+                        <div className="flex gap-6">
+                            {['youtube', 'twitter', 'twitch', 'instagram'].map(icon => (
+                                <a key={icon} href="#" className="text-gray-500 hover:text-brand-cyan transition-colors transform hover:-translate-y-1">
+                                    <i data-lucide={icon} className="w-5 h-5"></i>
+                                </a>
+                            ))}
+                        </div>
+
+                        <div className="text-gray-600 font-body text-xs tracking-widest">
+                            GG WP NO RE
+                        </div>
+                    </div>
+                </footer>
+            );
+        };
+
+        // --- MAIN APP RENDER ---
+        const App = () => {
+            const [gamerTag, setGamerTag] = useState("");
+
+            useEffect(() => {
+                // Initialize Lucide Icons
+                lucide.createIcons();
+            });
+
+            return (
+                <div className="min-h-screen flex flex-col scanlines">
+                    <Navbar />
+                    <Hero gamerTag={gamerTag} setGamerTag={setGamerTag} />
+                    <VideoGrid />
+                    <Footer />
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
+
